@@ -1,0 +1,18 @@
+Copyright (c) 2026 Lisa Stephan and Vā Collective. All rights reserved.
+
+Sāmoa Digital, including its concept, design, source code, text and visual
+materials in this repository, is proprietary. No licence is granted to copy,
+modify, distribute, host or create derivative works from any part of it
+without prior written permission from the copyright holders.
+
+Viewing this repository or the published prototype does not grant any rights
+to reuse it.
+
+Third-party data used by the prototype keeps its own terms:
+- Natural Earth coastline data: public domain.
+- Terrain data: SRTM-derived terrain tiles via AWS Open Data.
+- three.js (loaded from cdnjs): MIT licence.
+- Fonts (Google Fonts): SIL Open Font Licence.
+
+Cultural knowledge, stories and media contributed by Samoan communities
+belong to their custodians and contributors, under the permissions they set.

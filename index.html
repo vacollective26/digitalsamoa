@@ -8,6 +8,7 @@
 </head>
 <body>
 <title>Sāmoa Digital</title>
+<!-- © 2026 Lisa Stephan and Vā Collective. All rights reserved. Not licensed for reuse. -->
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Sāmoa Digital — a living digital cultural atlas of Samoa. Concept prototype.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,6 +38,13 @@ body{background:var(--abyss);color:var(--sand);font-family:var(--sans);font-size
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--reef);outline-offset:2px}
+#gate{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:radial-gradient(ellipse at 60% 40%,#17505E,#061B22 70%);color:var(--sand)}
+.gate-card{width:min(420px,100%);display:grid;gap:14px;text-align:left}
+.gate-card h1{margin:0;font-family:var(--display);font-weight:300;font-size:clamp(2.2rem,8vw,3.2rem);letter-spacing:.06em;line-height:1}
+.gate-card p{margin:0;color:var(--foam)}
+.gate-card input{padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(6,27,34,.6);color:var(--sand);font-size:1rem}
+.gate-card small{color:var(--foam-dim);font-size:.72rem}
+.gate-err{color:#F0B8A0!important;font-size:var(--t-sm)}
 .skip{position:absolute;left:-9999px;top:8px;z-index:100;background:var(--sand);color:var(--ink);padding:8px 12px;border-radius:8px}
 .skip:focus{left:max(16px,env(safe-area-inset-left,0px))}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -136,6 +144,7 @@ body.is3d #gl{display:block}
 .fade-step.in{opacity:1;transform:none}
 .arrival-hud{position:absolute;top:84px;right:max(16px,env(safe-area-inset-right,0px));text-align:right;display:grid;gap:4px;color:var(--foam-dim)}
 .arrival-hud strong{color:var(--sand);font-weight:500}
+.arrival-copy{font-size:.7rem;color:var(--foam-dim);margin-left:6px}
 .arrival-skip{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:48px;display:flex;gap:8px;align-items:center}
 
 /* ---------- Explorer panel ---------- */
@@ -546,6 +555,18 @@ dialog::backdrop{background:rgba(4,18,23,.72);backdrop-filter:blur(4px)}
 .reduced *,.reduced *::before,.reduced *::after{animation:none!important;transition-duration:.01ms!important}
 </style>
 
+<div id="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gate-h">
+  <form id="gate-form" class="gate-card" autocomplete="off">
+    <span class="eyebrow" style="color:var(--reef)">Private preview</span>
+    <h1 id="gate-h">SĀMOA DIGITAL</h1>
+    <p>This concept prototype is shared by invitation. Enter the preview password to continue.</p>
+    <label for="gate-pw" class="sr">Preview password</label>
+    <input id="gate-pw" type="password" placeholder="Preview password" required>
+    <p id="gate-err" class="gate-err" hidden role="alert">That password isn’t right. Check with Lisa and try again.</p>
+    <button class="btn btn-primary" type="submit">Enter</button>
+    <small>© 2026 Lisa Stephan and Vā Collective. All rights reserved.</small>
+  </form>
+</div>
 <a class="skip" href="#search-input">Skip to village search</a>
 
 <div id="stage" aria-label="Interactive map of Samoa">
@@ -590,6 +611,7 @@ dialog::backdrop{background:rgba(4,18,23,.72);backdrop-filter:blur(4px)}
     <div class="arrival-skip">
       <button class="icon-btn" id="sound-btn-a" aria-pressed="false" aria-label="Ocean sound, off" title="Ocean sound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="sw" d="M16.5 8.5a5 5 0 0 1 0 7"/></svg></button>
       <button class="btn btn-ghost" id="skip-btn">Skip intro</button>
+      <span class="arrival-copy">© 2026 Lisa Stephan · Vā Collective</span>
     </div>
   </section>
 
@@ -878,6 +900,7 @@ const DATA = {
     ["SD-TD-002","Cultural permissions are enforced in code: restricted items never render publicly; unapproved items show as labelled slots.","Proposed"],
     ["SD-CD-006","The Living Village Experience: a cinematic village landing with two equal pathways, Explore the Village and Discover Our Stories.","Approved"],
     ["SD-TD-003","Village pages float over the live map, so the island explorer and the village never lose each other; restricted records are filtered out before anything reaches the page or search.","Proposed"],
+    ["SD-TD-005","Copyright notice (Lisa Stephan and Vā Collective) and a preview password on the public site.","Proposed"],
     ["Open question","Which character marks the glottal stop in names: ‘ (as in this brief) or ʻ (the ʻokina, U+02BB).","Open"]
   ]
 };
@@ -2039,6 +2062,8 @@ function openAbout(focus){
   <li>Village coordinates for Patamea and Le‘auva‘a: public sources, still to be confirmed with each village.</li>
   <li>Elevation: SRTM-derived terrain tiles (AWS Open Data, originally Mapzen), resampled to a grid of about 275 m. Heights in the 3D view are exaggerated 2.5× so the relief reads clearly.</li>
   <li>Distances are straight-line (great-circle) estimates.</li></ul>
+  <h3>Copyright</h3>
+  <p>© 2026 Lisa Stephan and Vā Collective. All rights reserved. The Sāmoa Digital concept, design, code and text may not be copied, reused or adapted without written permission. Map data remains under its own open licences (Natural Earth, public domain; terrain data via AWS Open Data).</p>
   <h3>Whose knowledge this is</h3>
   <p>Cultural knowledge belongs to its appropriate custodians. All village stories, business profiles, historical accounts and media require permission and review before publication.</p>
   <h3>Public facts on the map</h3>
@@ -2115,6 +2140,7 @@ document.addEventListener("click",e=>{const mn=$("#v-menu");if(mn&&!mn.hidden&&!
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&orbitOn&&!orbitRaf)orbitRaf=requestAnimationFrame(orbitTick);});
 document.documentElement.classList.toggle("reduced",reduced); $("#motion-btn").setAttribute("aria-pressed",String(reduced));
 buildTerrain(); init3D(); buildMarkers(); renderPanel(); resize();
+function boot(){
 const hash=(location.hash||"").slice(1);
 const hm=hash.match(/^([a-z]+)(?:-([a-z]+))?$/);
 if(hm&&village(hm[1])){ $("#arrival").classList.add("gone"); showUI(); VMODE=hm[2]||"landing"; Object.assign(cam,villageCam(village(hm[1]),VMODE)); VMODE=null; openVillage(hm[1],hm[2]||"landing"); }
@@ -2124,6 +2150,19 @@ else if(hash==="list"){ $("#arrival").classList.add("gone"); Object.assign(cam,h
 else if(hash==="arrival"){ runArrival(); }
 else if(store.get("sd.seen")==="1"||hash==="map"){ $("#arrival").classList.add("gone"); Object.assign(cam,homeView()); showUI(); }
 else runArrival();
+}
+/* Preview password: shown only on the public site. It keeps casual visitors out; it is not strong security,
+   because the page code is still readable. Real protection: private repository + an email login (see README). */
+const GATE_HASH="582be6ebb3ec473d54e3944092a65da43919eb5c28bc80076f619f3c40cc56c9";
+const gated=/github\.io$/.test(location.hostname);
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("sd-salt:"+t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+if(gated&&store.get("sd.gate")!==GATE_HASH){
+  const g=$("#gate"); g.hidden=false; setTimeout(()=>$("#gate-pw").focus(),50);
+  $("#gate-form").addEventListener("submit",async e=>{e.preventDefault();
+    const ok=(await sha($("#gate-pw").value.trim().toLowerCase()))===GATE_HASH;
+    if(!ok){$("#gate-err").hidden=false;$("#gate-pw").select();return;}
+    store.set("sd.gate",GATE_HASH); g.hidden=true; boot();});
+} else boot();
 document.fonts&&document.fonts.ready.then(redraw);
 </script>
 

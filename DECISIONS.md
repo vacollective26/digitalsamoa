@@ -14,4 +14,5 @@ Decisions are approved by the Creative Director. AI partners may propose but not
 | SD-TD-002 | Cultural permissions enforced in code: restricted items never render publicly; unapproved items show as labelled slots. | Proposed |
 | SD-TD-003 | Village pages float over the live map; restricted records are filtered before reaching any page or search index. | Proposed |
 | SD-TD-004 | Host the prototype on GitHub Pages (public), with a search-engine "noindex" tag while it is a prototype. | Proposed |
+| SD-TD-005 | Copyright notice (Lisa Stephan and Vā Collective), LICENSE file, and a preview password on the public site. | Proposed |
 | Open | Glottal stop character in names: ‘ or ʻokina (ʻ, U+02BB). | Open |

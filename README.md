@@ -2,6 +2,9 @@
 
 Sāmoa Digital is an immersive, community-centred cultural atlas connecting the Samoan diaspora to Samoa's villages, people, history and living stories through interactive 3D exploration and digital storytelling.
 
+## Copyright
+© 2026 Lisa Stephan and Vā Collective. All rights reserved. See `LICENSE`. The public site asks for a preview password; this deters casual visitors but is not strong security while the repository is public.
+
 ## Concept prototype: version 5 (Sprint 02)
 
 Live site (once GitHub Pages is on): https://vacollective26.github.io/digitalsamoa/
