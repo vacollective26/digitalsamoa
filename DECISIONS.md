@@ -15,4 +15,5 @@ Decisions are approved by the Creative Director. AI partners may propose but not
 | SD-TD-003 | Village pages float over the live map; restricted records are filtered before reaching any page or search index. | Proposed |
 | SD-TD-004 | Host the prototype on GitHub Pages (public), with a search-engine "noindex" tag while it is a prototype. | Proposed |
 | SD-TD-005 | Copyright notice (Lisa Stephan and Vā Collective), LICENSE file, and a preview password on the public site. | Proposed |
+| SD-TD-006 | Village Heritage engine: historical sources are indexed privately; only verified, community-approved entries from rights-confirmed sources are built into the public site. | Proposed |
 | Open | Glottal stop character in names: ‘ or ʻokina (ʻ, U+02BB). | Open |

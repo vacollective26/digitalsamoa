@@ -12,6 +12,14 @@ Private review copy: https://claude.ai/artifact/6JFxZBxhGexKuwUGDAwFvX
 
 This is a public prototype. Do not add real community stories, recordings, photographs or personal details to this repository until they have been approved for publication.
 
+## How the project is built (read this before editing)
+- **Edit `src/site.html`**, not `index.html`. `index.html` is generated.
+- Run `python tools/build.py` to regenerate `index.html`, then commit both.
+- Run the tests: `python -m unittest discover -s tests -v`
+  (the browser tests need Playwright: `pip install playwright && playwright install chromium`; they are skipped if it's missing).
+- Historical sources (Village Heritage) live in `data/heritage/`. Research material goes in `research/`, which git ignores.
+  See `research-template/README.md` for the import and approval process.
+
 ## Open it
 - Visit the live site above, or download this repository and double-click `index.html`. It opens in Chrome, Safari or Edge, no installation needed.
 - An internet connection is needed for the fonts and the 3D engine (three.js, loaded from cdnjs). Without one, the site falls back to system fonts and a flat map.

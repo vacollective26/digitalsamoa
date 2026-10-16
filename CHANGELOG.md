@@ -1,5 +1,16 @@
 # Changelog
 
+## v7 · Sprint 03: Village Heritage engine (branch `sprint-03-village-heritage`)
+- Village Heritage section in **Our History** with three views: Historical Record, Understanding Fa‘alupega, Living Community Knowledge.
+- Source record for *O le Tusi Fa‘alupega o Samoa* (1981, Te Papa FE012543) with a clickable citation to the collection. Rights recorded as Te Papa's "No Known Copyright Restrictions" assessment, **not yet confirmed for this use**, so nothing from it is published.
+- Data model: sources, entries, page references, village/district associations with evidence, variant names, provenance, research status, publication status and scope, sensitivity.
+- Association rules: a similar name is never evidence; village and district levels are kept apart; anything short of the rules is "uncertain".
+- Research-only import (CSV → `research/`, git-ignored), `check` and `promote` tools, and a research preview that is never committed.
+- Public build (`tools/build.py`) only reads approved entries and stops if any fails the rules.
+- Respectful empty states for Patamea and Le‘auva‘a (not yet searched in the source).
+- 25 automated tests (rules, permissions, import, build exclusion, repository guard, rendering).
+- Project now builds from `src/site.html`.
+
 ## v5 · Sprint 02: Living Village Experience (SD-CD-006)
 - Village landing over the live 3D terrain: name, island, draft introduction, two equal pathways (Explore the Village, Discover Our Stories), guided-journey link, category strip.
 - Explore the Village: perspectives (Village, Overhead, Coastline, Island, All Samoa), 3D on/off, slow orbit, location markers with cards, stories linked to places, Places list (text alternative), 360° and Gallery slots.

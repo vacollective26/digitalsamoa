@@ -1,0 +1,18 @@
+[
+  {
+    "villageId": "patamea",
+    "sourceChecks": [
+      { "sourceId": "tusi-faalupega-1981", "status": "not-yet-searched",
+        "note": "No entry has been identified or verified in this source for Patamea." }
+    ],
+    "communityKnowledge": { "status": "not-yet-invited" }
+  },
+  {
+    "villageId": "leauvaa",
+    "sourceChecks": [
+      { "sourceId": "tusi-faalupega-1981", "status": "not-yet-searched",
+        "note": "No entry has been identified or verified in this source for Le‘auva‘a." }
+    ],
+    "communityKnowledge": { "status": "not-yet-invited" }
+  }
+]
