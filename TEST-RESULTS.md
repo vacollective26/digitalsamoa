@@ -28,3 +28,17 @@ Automated browser tests on 16 Oct 2026, in three set-ups:
 - A full WCAG 2.2 AA audit with a screen reader (VoiceOver or NVDA) by a person. The automated checks above do not replace it.
 - Colour contrast of small text over the moving 3D background, on a range of real phones.
 - Performance on low-end Android phones on slow connections. The page is about 330 KB before fonts and the 3D engine.
+
+# Sprint 03: Village Heritage
+
+`python -m unittest discover -s tests -v`: **25 of 25 passed** on 16 Oct 2026, including the 4 browser rendering tests.
+The 84 Sprint 02 checks were re-run against the new build: **84 of 84 passed**.
+
+| Area | Tests |
+|---|---|
+| Historical association | name match alone rejected; village and district rules; unknown evidence rejected; levels kept distinct; a village claim backed only by a district link becomes "uncertain" |
+| Permissions | each publication gate blocks on its own (rights, research status, publication status, approver, sensitivity, page reference, source); uncertain entries need explicit approval; publication scope limits what text is built |
+| Import format | imports are always unpublished and restricted; blanks are never guessed; invalid values rejected |
+| Public build | research folder never reaches the public build; an unapproved file in the approved folder stops the build; approved entries need confirmed rights; empty profiles build for Patamea and Le‘auva‘a |
+| Repository guard | `research/` is git-ignored; every tracked approved record passes the rules; committed `index.html` matches a fresh build |
+| Rendering | empty states and Te Papa citation on both villages; three views and keyboard tabs; village, district and uncertain groups render separately using fictional fixtures; name-match-only entry is not linked; no sideways scroll on phones |

@@ -222,6 +222,45 @@ body.is3d #gl{display:block}
 .draft-note{font-size:.72rem;color:var(--foam-dim);border-left:2px solid var(--wait);padding-left:8px}
 
 /* ---------- Village room ---------- */
+/* ---------- Village Heritage (Sprint 03) ---------- */
+.heritage{scroll-margin-top:calc(var(--vnav-h,110px) + 16px);display:grid;gap:16px;margin-top:28px;padding-top:28px;border-top:1px solid var(--line-ink)}
+.her-head h3{margin:4px 0 6px;font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;text-wrap:balance}
+.her-head p{margin:0;color:var(--ink-soft);max-width:62ch}
+.htabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line-ink);scrollbar-width:none}
+.htabs button{border:0;background:none;padding:12px 14px;font-size:var(--t-sm);font-weight:500;color:var(--ink-soft);border-bottom:2px solid transparent;white-space:nowrap}
+.htabs button[aria-selected="true"]{color:var(--ink);border-color:var(--clay)}
+.hpanel{display:grid;gap:16px}
+.hsource{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start;background:#FBF5EC;border:1px solid var(--line-ink);border-radius:16px;padding:18px 20px}
+.hsource h4{margin:2px 0 4px;font-family:var(--display);font-weight:500;font-size:1.35rem;font-style:italic}
+.hsource p{margin:0 0 6px;font-size:var(--t-sm);color:var(--ink-soft);max-width:70ch}
+.hs-label{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--clay-deep)}
+.hs-check{white-space:nowrap}
+.cite{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--clay);text-underline-offset:3px;font-size:var(--t-sm)}
+.cite:hover{text-decoration-thickness:2px}
+.hempty{border:1px dashed rgba(16,48,58,.3);border-radius:16px;padding:20px 22px;display:grid;gap:8px;justify-items:start}
+.hempty b{font-family:var(--display);font-weight:500;font-size:1.25rem}
+.hempty p{margin:0;color:var(--ink-soft);max-width:66ch;font-size:var(--t-sm)}
+.hempty details{font-size:var(--t-sm);color:var(--ink-soft)}
+.hempty summary{cursor:pointer;font-weight:600;color:var(--ink)}
+.hempty ol{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
+.hgroup{display:grid;gap:10px}
+.hgroup-h{margin:6px 0 0;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.hentry{background:#FBF5EC;border:1px solid var(--line-ink);border-left:4px solid var(--lagoon);border-radius:12px;padding:14px 16px;display:grid;gap:6px}
+.hentry.lvl-district{border-left-color:var(--clay)}
+.hentry.lvl-uncertain{border-left-color:var(--wait);border-left-style:dashed}
+.hentry h4{margin:0;font-family:var(--display);font-weight:500;font-size:1.2rem}
+.hentry p{margin:0;font-size:var(--t-sm);color:var(--ink-soft)}
+.hlevel{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink-soft)}
+.hev{margin:0;padding-left:18px;font-size:.78rem;color:var(--ink-soft)}
+.happroved{font-size:.74rem!important}
+.hunderstand{display:grid;gap:10px;justify-items:start}
+.hunderstand p,.hunderstand li{max-width:66ch;color:var(--ink-soft);font-size:var(--t-sm)}
+.hunderstand .tab-intro{color:var(--ink);font-size:1.2rem}
+.hunderstand h4{margin:8px 0 0;font-family:var(--display);font-weight:500;font-size:1.2rem}
+.hunderstand ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.hresearch{border:2px solid var(--held);border-radius:12px;padding:12px 14px;background:rgba(122,78,107,.07);font-size:var(--t-sm)}
+@media (max-width:640px){.hsource{grid-template-columns:1fr}.hs-check{white-space:normal}}
+
 /* ---------- Living Village (SD-CD-006) ---------- */
 #village{position:fixed;inset:0;z-index:40;color:var(--ink);background:transparent;overflow:auto;opacity:0;visibility:hidden;transition:opacity .6s var(--ease),visibility 0s linear .6s;color-scheme:light;overscroll-behavior:contain}
 #village.open{opacity:1;visibility:visible;transition:opacity .6s var(--ease)}
@@ -743,12 +782,12 @@ const DATA = {
     {id:"upolu",  name:"Upolu",   label:[-171.76,-13.93], fit:[-172.08,-13.79,-171.42,-14.07]}
   ],
   villages:[
-    {id:"patamea", name:"Patamea", alt:["Patamea"], island:"savaii", district:"Gaga‘emauga",
+    {id:"patamea", name:"Patamea", alt:["Patamea"], island:"savaii", district:"Gaga‘emauga", districtId:"gagaemauga",
      lat:-13.52417, lon:-172.30611, dms:"13°31′27″S 172°18′22″W",
      publicFacts:[["District","Gaga‘emauga"],["Population (2016 census)","649"]],
      partnership:"Proposed pilot · partnership not yet confirmed",
      source:"Location, district and census figure from public sources (Wikipedia, citing the 2016 Samoa census). To be checked with the village."},
-    {id:"leauvaa", name:"Le‘auva‘a", alt:["Leauva‘a","Leauvaa","Le'auva'a"], island:"upolu", district:"Gaga‘emauga",
+    {id:"leauvaa", name:"Le‘auva‘a", alt:["Leauva‘a","Leauvaa","Le'auva'a"], island:"upolu", district:"Gaga‘emauga", districtId:"gagaemauga",
      lat:-13.80000, lon:-171.87194, dms:"13°48′00″S 171°52′19″W",
      publicFacts:[["District","Gaga‘emauga"],["Note","On Upolu, within a Savai‘i district"]],
      partnership:"Proposed pilot · partnership not yet confirmed",
@@ -900,6 +939,7 @@ const DATA = {
     ["SD-TD-002","Cultural permissions are enforced in code: restricted items never render publicly; unapproved items show as labelled slots.","Proposed"],
     ["SD-CD-006","The Living Village Experience: a cinematic village landing with two equal pathways, Explore the Village and Discover Our Stories.","Approved"],
     ["SD-TD-003","Village pages float over the live map, so the island explorer and the village never lose each other; restricted records are filtered out before anything reaches the page or search.","Proposed"],
+    ["SD-TD-006","Village Heritage engine: historical sources are indexed privately; only verified, community-approved entries from rights-confirmed sources are built into the public site.","Proposed"],
     ["SD-TD-005","Copyright notice (Lisa Stephan and Vā Collective) and a preview password on the public site.","Proposed"],
     ["Open question","Which character marks the glottal stop in names: ‘ (as in this brief) or ʻ (the ʻokina, U+02BB).","Open"]
   ]
@@ -1917,6 +1957,113 @@ function renderStoriesView(v,box){
   wireCards(box.querySelector(".feat")||box); draw();
 }
 
+/* =========================================================================
+   VILLAGE HERITAGE (Sprint 03)
+   Data is injected by tools/build.py: public sources, village profiles and ONLY approved entries.
+   HeritageRules mirrors tools/heritage_rules.py and re-checks everything in the browser as well.
+   ========================================================================= */
+const HERITAGE=/*HERITAGE:BEGIN*/{"sources":[{"id":"tusi-faalupega-1981","title":"O le Tusi Faalupega o Samoa","titleDisplay":"O le Tusi Fa‘alupega o Samoa","edition":"1981 edition","firstEdition":"1915","publisher":"Malua Printing Press","place":"Apia","listedAuthor":"T. Faletoese","holding":"Museum of New Zealand Te Papa Tongarewa","registration":"FE012543","creditLine":"Gift of Safua Akeli, 2010","url":"https://collections.tepapa.govt.nz/object/1094507","rights":{"statement":"No Known Copyright Restrictions","assessedBy":"Te Papa","checkedOn":"2026-10-16","confirmedForUse":false,"notes":"Te Papa's label is its own assessment, not a licence or a guarantee. Use in Sāmoa Digital is not yet confirmed with Te Papa or the publisher, and cultural permission is a separate question."},"culturalAuthority":{"status":"not-yet-sought","notes":"Fa‘alupega are held knowledge. Village and district authorities decide what is shared and how."}}],"villages":[{"villageId":"patamea","sourceChecks":[{"sourceId":"tusi-faalupega-1981","status":"not-yet-searched","note":"No entry has been identified or verified in this source for Patamea."}],"communityKnowledge":{"status":"not-yet-invited"}},{"villageId":"leauvaa","sourceChecks":[{"sourceId":"tusi-faalupega-1981","status":"not-yet-searched","note":"No entry has been identified or verified in this source for Le‘auva‘a."}],"communityKnowledge":{"status":"not-yet-invited"}}],"entries":[],"mode":"public"}/*HERITAGE:END*/;
+const HeritageRules={
+  valid(a){const ev=new Set(a.evidence||[]);ev.delete("name-match");
+    if(a.targetType==="village") return ev.has("community-confirmed")||(ev.has("source-structure")&&ev.has("second-source"));
+    if(a.targetType==="district") return ev.has("source-structure")||ev.has("community-confirmed");
+    return false;},
+  source(id){return HERITAGE.sources.find(s=>s.id===id);},
+  isPublic(e){const s=this.source(e.sourceId);
+    return !!(s&&s.rights&&s.rights.confirmedForUse&&e.approval&&e.approval.by&&e.approval.ref&&e.pageRef&&(e.pageRef.printedPage||e.pageRef.pdfPage));},
+  forVillage(v){
+    const pub=HERITAGE.entries.filter(e=>this.isPublic(e));
+    const districtId=(v.districtId||"");
+    return {
+      village:pub.filter(e=>e.level==="village"&&(e.villageIds||[]).includes(v.id)),
+      district:pub.filter(e=>e.level==="district"&&districtId&&(e.districtIds||[]).includes(districtId)),
+      uncertain:pub.filter(e=>e.level==="uncertain"&&((e.villageIds||[]).includes(v.id)||(districtId&&(e.districtIds||[]).includes(districtId))))
+    };
+  },
+  profile(v){return HERITAGE.villages.find(p=>p.villageId===v.id)||{villageId:v.id,sourceChecks:[],communityKnowledge:{status:"not-yet-invited"}};}
+};
+const HTABS=[["record","Historical Record"],["understand","Understanding Fa‘alupega"],["living","Living Community Knowledge"]];
+const CHECK_LABEL={"not-yet-searched":"Not yet searched","searched-none-found":"Searched · no entry identified","entry-under-review":"Entry under community review","verified":"Verified entry published"};
+const LEVEL_LABEL={village:"Village-level reference",district:"District-level reference",uncertain:"Uncertain reference"};
+const EVIDENCE_LABEL={"source-structure":"Placed under this heading in the source","second-source":"Agrees with a second source","community-confirmed":"Confirmed by the community"};
+function citeHtml(e,s){
+  const p=e.pageRef||{}, page=p.printedPage?`p. ${p.printedPage}`:`PDF page ${p.pdfPage}`;
+  return `<a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.titleDisplay} (${s.edition}), ${page}. ${s.holding}, ${s.registration}<span class="sr"> (opens the original collection record in a new tab)</span> ↗</a>`;
+}
+function heritageEntryCard(e){
+  const s=HeritageRules.source(e.sourceId);
+  return `<article class="hentry lvl-${e.level}">
+    <span class="hlevel">${LEVEL_LABEL[e.level]}</span>
+    <h4>${e.headingAsPrinted||"Entry"}</h4>
+    ${e.variantNames&&e.variantNames.length?`<p class="hvar">Also written: ${e.variantNames.map(n=>n.name).join(", ")}</p>`:""}
+    ${e.summary?`<p>${e.summary}</p>`:""}
+    <ul class="hev">${(e.evidence||[]).map(x=>`<li>${EVIDENCE_LABEL[x]||x}</li>`).join("")}</ul>
+    <p class="hcite">${citeHtml(e,s)}</p>
+    <p class="happroved">Approved for publication by ${e.approval.by}${e.approval.on?` on ${e.approval.on}`:""} · shown as: ${e.approval.scope.replace("-"," ")}</p>
+  </article>`;
+}
+function renderHeritage(v,host){
+  if(!host) return;
+  VS.htab=VS.htab||"record";
+  host.innerHTML=`<section class="heritage" aria-labelledby="her-h">
+    <div class="her-head"><span class="eyebrow" style="color:var(--clay-deep)">Village heritage</span>
+      <h3 id="her-h">Records, fa‘alupega and the people who hold them</h3>
+      <p>Written records are one part of a village’s history. ${v.name} decides what is shared here, and how.</p></div>
+    <div class="htabs" role="tablist" aria-label="Village heritage views">${HTABS.map(([k,l])=>`<button role="tab" id="ht-${k}" aria-controls="hpanel" aria-selected="${VS.htab===k}" tabindex="${VS.htab===k?0:-1}" data-htab="${k}">${l}</button>`).join("")}</div>
+    <div class="hpanel" id="hpanel" role="tabpanel" aria-labelledby="ht-${VS.htab}" tabindex="0"></div>
+  </section>`;
+  const tabs=$$("[data-htab]",host);
+  tabs.forEach((b,i)=>{b.onclick=()=>{VS.htab=b.dataset.htab;renderHeritage(v,host);host.querySelector(`#ht-${VS.htab}`).focus();};
+    b.onkeydown=e=>{if(e.key==="ArrowRight"||e.key==="ArrowLeft"){e.preventDefault();tabs[(i+(e.key==="ArrowRight"?1:-1)+tabs.length)%tabs.length].click();}};});
+  const panel=$("#hpanel",host), prof=HeritageRules.profile(v), found=HeritageRules.forVillage(v);
+  if(VS.htab==="record"){
+    const total=found.village.length+found.district.length+found.uncertain.length;
+    const groups=[["village",`About ${v.name}`],["district",`About its district${v.district?`, ${v.district}`:""}`],["uncertain","Uncertain references"]];
+    panel.innerHTML=`
+      ${HERITAGE.sources.map(s=>{const chk=(prof.sourceChecks||[]).find(c=>c.sourceId===s.id);return `<div class="hsource">
+        <div><span class="hs-label">Source</span><h4>${s.titleDisplay}</h4>
+        <p>${s.edition}, ${s.publisher}, ${s.place} · first edition ${s.firstEdition} · ${s.holding}, ${s.registration}</p>
+        <p class="hs-rights"><b>Rights:</b> ${s.rights.statement} (${s.rights.assessedBy}). ${s.rights.confirmedForUse?"Use confirmed for this project.":"Use in Sāmoa Digital not yet confirmed, so no entries from this source are published yet."}</p>
+        <a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">View the original at Te Papa<span class="sr"> (opens in a new tab)</span> ↗</a></div>
+        <span class="status ${chk&&chk.status==="verified"?"s-ok":"s-slot"} hs-check">${v.name}: ${CHECK_LABEL[chk?chk.status:"not-yet-searched"]||"Not yet searched"}</span></div>`;}).join("")}
+      ${total?groups.map(([k,l])=>found[k].length?`<div class="hgroup"><h4 class="hgroup-h">${l}</h4>${found[k].map(heritageEntryCard).join("")}</div>`:"").join("")
+      :`<div class="hempty" role="status">
+          <b>No verified historical entry for ${v.name} yet.</b>
+          <p>This does not mean ${v.name} has no fa‘alupega or written history. It means no entry from these sources has yet been identified, checked against the page, and approved by the village to appear here.</p>
+          <details><summary>How an entry reaches this page</summary><ol>
+            <li>The rights to use the source are confirmed with the institution that holds it.</li>
+            <li>A researcher indexes the entry privately, citing the exact page.</li>
+            <li>The link to ${v.name} or its district is confirmed by the community or a second source. A similar name is never enough.</li>
+            <li>The village reviews the entry and decides whether it is shown, and how much of it.</li>
+            <li>Only then is it published here, with a citation to the original.</li></ol></details>
+        </div>`}
+      <p class="src">Village-level, district-level and uncertain references are always kept apart. Nothing is linked to ${v.name} because of a similar name alone.</p>`;
+  } else if(VS.htab==="understand"){
+    panel.innerHTML=`<div class="hunderstand">
+      <span class="status s-wait">Draft explanation · to be reviewed by Samoan cultural advisors</span>
+      <p class="tab-intro">Fa‘alupega are the ceremonial forms of address for a village or district. They honour its titles and the relationships between them, and they connect families to land and origins.</p>
+      <p>They are usually learned over time by matai and orators, and recalled in speeches at ceremonies and gatherings. Te Papa notes that the 1981 book is significant because Samoans compiled these titles in written form themselves; earlier published versions were produced by foreigners.</p>
+      <h4>Why this site takes care</h4>
+      <ul><li>A printed fa‘alupega records how it was written at one time. Villages may speak it differently today.</li>
+        <li>Editions differ, and so do spellings of names. Each is kept as printed, with variants noted.</li>
+        <li>The village, not a book or a website, is the authority on its own fa‘alupega.</li>
+        <li>Some knowledge is not for public display. The village decides.</li></ul>
+      <p class="src">Source for the description of the book: <a class="cite" href="${(HERITAGE.sources[0]||{}).url||"#"}" target="_blank" rel="noopener noreferrer">Te Papa collection record<span class="sr"> (opens in a new tab)</span> ↗</a></p></div>`;
+  } else {
+    const ck=(prof.communityKnowledge||{}).status||"not-yet-invited";
+    panel.innerHTML=`<div class="hempty" role="status">
+        <span class="status s-slot">${ck==="not-yet-invited"?"Not yet invited":ck}</span>
+        <b>Living knowledge from ${v.name} will appear here.</b>
+        <p>How the fa‘alupega is spoken today, corrections to written records, and the stories behind them, shared by people from ${v.name} and approved through the village’s own process. Each contribution will be credited as the contributor chooses.</p>
+        <p>Nothing has been recorded yet. Invitations will follow the village’s protocols during the community visit.</p>
+      </div>`;
+  }
+  if(HERITAGE.mode==="research-preview"&&HERITAGE.drafts&&HERITAGE.drafts.length){
+    const mine=HERITAGE.drafts.filter(d=>(d.villageIds||[]).includes(v.id)||(d.districtIds||[]).length);
+    panel.insertAdjacentHTML("beforeend",`<div class="hresearch"><b>Research preview: ${mine.length} draft entr${mine.length===1?"y":"ies"} (not public)</b>${mine.map(d=>`<p>${d.id} · ${LEVEL_LABEL[d.level]} · ${d.headingAsPrinted||"(no heading)"} · ${d.researchStatus}/${d.publicationStatus}<br><small>${(d.problems||[]).join("; ")}</small></p>`).join("")}</div>`);
+  }
+}
+
 /* ---------- 4. Category pages (Our History, Our People, Our Culture, Our Places, Life Today, Local Connections) ---------- */
 function renderCategory(v,box,cat){
   const c=CATS.find(x=>x[0]===cat), i=CATS.indexOf(c), next=CATS[(i+1)%CATS.length];
@@ -1977,7 +2124,9 @@ function renderTab(){
     <div class="listing"><span class="badge paid">Paid promotion · fictional example</span><h3>Example: guesthouse</h3><p>Paid placements carry this label and never appear inside stories or history.</p></div>`:""}</div>
     <p class="src">Each listing will hold: name, category, description, approved images, contact details and links, and a listing permission the business can withdraw at any time.</p>`;
   }
+  if(cat==="history") extra+=`<div id="heritage-host"></div>`;
   tp.innerHTML=(cat==="connections"?"":storyBlock+heldNote+more)+extra;
+  if(cat==="history") renderHeritage(v,$("#heritage-host"));
   wireCards(tp);
   $$("[data-attr]",tp).forEach(b=>b.onclick=()=>{const [i,k]=b.dataset.attr.split(":");VS.attr[i]=k;renderTab();});
   $$("[data-cat]",tp).forEach(b=>b.onclick=()=>{VS.cat=b.dataset.cat;renderTab();});
@@ -2064,6 +2213,8 @@ function openAbout(focus){
   <li>Distances are straight-line (great-circle) estimates.</li></ul>
   <h3>Copyright</h3>
   <p>© 2026 Lisa Stephan and Vā Collective. All rights reserved. The Sāmoa Digital concept, design, code and text may not be copied, reused or adapted without written permission. Map data remains under its own open licences (Natural Earth, public domain; terrain data via AWS Open Data).</p>
+  <h3>Historical sources</h3>
+  <p>${HERITAGE.sources.map(s=>`${s.titleDisplay} (${s.edition}), held by ${s.holding} (${s.registration}). Rights: ${s.rights.statement}, as assessed by ${s.rights.assessedBy}; use in this project ${s.rights.confirmedForUse?"confirmed":"not yet confirmed"}. <a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">Collection record ↗</a>`).join("<br>")||"None yet."}</p>
   <h3>Whose knowledge this is</h3>
   <p>Cultural knowledge belongs to its appropriate custodians. All village stories, business profiles, historical accounts and media require permission and review before publication.</p>
   <h3>Public facts on the map</h3>

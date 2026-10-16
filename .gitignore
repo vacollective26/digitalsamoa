@@ -1,0 +1,5 @@
+# Research material never enters the public repository or the public site.
+/research/
+/research-preview.html
+*.research.json
+__pycache__/
