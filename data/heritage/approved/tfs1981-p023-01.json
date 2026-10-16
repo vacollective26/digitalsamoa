@@ -1,0 +1,56 @@
+{
+  "id": "tfs1981-p023-01",
+  "sourceId": "tusi-faalupega-1981",
+  "pageRef": {
+    "printedPage": "23",
+    "pdfPage": 31,
+    "section": "FAALUPEGA O SAVAII"
+  },
+  "headingAsPrinted": "Patamea",
+  "level": "village",
+  "associations": [
+    {
+      "targetType": "village",
+      "targetId": "patamea",
+      "evidence": [
+        "source-structure",
+        "name-match"
+      ],
+      "confirmedBy": "",
+      "note": "The entry is printed under its own heading 'Patamea' in the Savai‘i section, between Lealatele and Sale‘aula. Not yet confirmed by Patamea or a second source."
+    }
+  ],
+  "variantNames": [],
+  "content": {
+    "summary": "The fa‘alupega of Patamea as printed in the 1981 edition, with its malae-fono, maota, igoa-ipu and sa‘otama‘ita‘i.",
+    "transcription": "Patamea\nTulouna a oe le Pule to i Malaeola, ma Gafuaga\n… oe le Faleaana\n… lau Afioga a Lauago\nMALAE-FONO\nGafuaga\nMAOTA O ALII\nLauago: Faletogō\nO IGOA-IPU A ALII\nLauago: Taua‘itao\nSA‘OTAMA‘ITA‘I\nLauago: Sinanuu"
+  },
+  "provenance": {
+    "indexedBy": "Claude (for Lisa Stephan)",
+    "indexedOn": "2026-10-16",
+    "method": "Read from the page image of Te Papa's digitised copy (PDF page 31) and checked against OCR. Line breaks follow the printed page; '…' marks the repeated opening words.",
+    "checkedBy": "Lisa Stephan"
+  },
+  "research": {
+    "status": "verified-against-source",
+    "notes": "Transcription checked against the page image by Lisa Stephan on 16 Oct 2026. Diacritics follow the printed page where legible."
+  },
+  "publication": {
+    "status": "approved",
+    "approvedBy": "Lisa Stephan (Creative Director)",
+    "approvalRef": "SD-CD-007",
+    "approvedOn": "2026-10-16",
+    "scope": "full-text",
+    "override": {
+      "by": "Lisa Stephan (Creative Director)",
+      "ref": "SD-CD-007",
+      "on": "2026-10-16",
+      "covers": [
+        "source-rights",
+        "village-association"
+      ],
+      "note": "Published ahead of rights confirmation and before Patamea has reviewed it. The book's title page says 'All rights reserved'; Te Papa lists it as 'No Known Copyright Restrictions'. Will be corrected or withdrawn if the village or rights holder asks."
+    }
+  },
+  "sensitivity": "public"
+}
