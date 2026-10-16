@@ -1,4 +1,8 @@
-# Sāmoa Digital: concept prototype, version 5 (Sprint 02)
+# Sāmoa Digital
+
+Sāmoa Digital is an immersive, community-centred cultural atlas connecting the Samoan diaspora to Samoa's villages, people, history and living stories through interactive 3D exploration and digital storytelling.
+
+## Concept prototype: version 5 (Sprint 02)
 
 Live site (once GitHub Pages is on): https://vacollective26.github.io/digitalsamoa/
 Private review copy: https://claude.ai/artifact/6JFxZBxhGexKuwUGDAwFvX
