@@ -18,9 +18,12 @@ EVIDENCE = (
 RESEARCH_STATUSES = ("draft", "indexed", "verified-against-source")
 PUBLICATION_STATUSES = ("unpublished", "community-review", "approved", "restricted", "withdrawn")
 SCOPES = ("citation-only", "summary", "full-text")
-# A Creative Director decision can publish ahead of two checks, and only these two.
+# A Creative Director decision can publish a CITATION ahead of two checks, and only these two.
 # It never replaces source verification, sensitivity, a page reference or approval,
-# and it can never rescue a name match: the entry must sit under the heading in the source.
+# it can never rescue a name match, and it never publishes text (summary or transcription).
+# Text scopes need: rights confirmed, a community-confirmed association and a recorded
+# cultural review approving that scope (see text_scope_cleared). See SD-CD-008.
+TEXT_SCOPES = ("summary", "full-text")
 OVERRIDABLE = ("source-rights", "village-association")
 
 
@@ -36,7 +39,23 @@ def override(entry):
 
 def overrides(entry, what):
     o = override(entry)
-    return bool(o and what in o["covers"])
+    scope = (entry.get("publication") or {}).get("scope", "citation-only")
+    return bool(o and what in o["covers"] and scope not in TEXT_SCOPES)
+
+
+def text_scope_cleared(entry, src):
+    """Summary or full text may only be published with confirmed rights, a community-confirmed
+    association, and a cultural review that names who approved it and the scope they approved."""
+    scope = (entry.get("publication") or {}).get("scope", "citation-only")
+    if scope not in TEXT_SCOPES:
+        return True
+    if not (src and (src.get("rights") or {}).get("confirmedForUse")):
+        return False
+    if not any("community-confirmed" in (a.get("evidence") or []) and association_valid(a)
+               for a in entry.get("associations") or []):
+        return False
+    cr = entry.get("culturalReview") or {}
+    return bool(cr.get("approvedBy") and cr.get("ref") and scope in (cr.get("scopesApproved") or []))
 
 
 def rights_ok(entry, src):
@@ -87,6 +106,8 @@ def is_public(entry, sources):
     src = next((s for s in sources if s.get("id") == entry.get("sourceId")), None)
     if not rights_ok(entry, src):
         return False
+    if not text_scope_cleared(entry, src):
+        return False
     if (entry.get("research") or {}).get("status") != "verified-against-source":
         return False
     pub = entry.get("publication") or {}
@@ -111,6 +132,8 @@ def problems(entry, sources):
         out.append("unknown source")
     elif not rights_ok(entry, src):
         out.append("source rights not yet confirmed for this use")
+    if not text_scope_cleared(entry, src):
+        out.append("summary or full text needs confirmed rights, community confirmation and a recorded cultural review")
     if (entry.get("research") or {}).get("status") != "verified-against-source":
         out.append("not yet verified against the source")
     pub = entry.get("publication") or {}
@@ -152,7 +175,9 @@ def public_view(entry):
     o = override(entry)
     if o:
         view["override"] = {k: o.get(k, "") for k in ("by", "ref", "on", "covers", "note")}
-    if scope in ("summary", "full-text"):
+    if scope in TEXT_SCOPES:
+        cr = entry.get("culturalReview") or {}
+        view["culturalReview"] = {"by": cr.get("approvedBy", ""), "ref": cr.get("ref", "")}
         view["summary"] = (entry.get("content") or {}).get("summary", "")
     if scope == "full-text":
         view["transcription"] = (entry.get("content") or {}).get("transcription", "")

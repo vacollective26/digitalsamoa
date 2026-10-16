@@ -4,6 +4,16 @@ Run:  python -m unittest discover -s tests -v
 """
 import copy, json, os, shutil, subprocess, sys, tempfile, unittest
 
+import hashlib, re
+# SHA-256 prefixes of distinctive words from the withdrawn Patamea transcription (SD-CD-008).
+# Stored as hashes so the tests themselves never republish the text.
+WITHDRAWN = {"8a95a155c2a67720", "cdb58071b688a792", "b594b4cb1b9d0511", "efb99e6425f80410", "95808378f6e85652"}
+WORD = re.compile(r"[A-Za-zĀĒĪŌŪāēīōū‘ʻ']+")
+
+
+def withdrawn_words(text):
+    return sorted({w for w in WORD.findall(text) if hashlib.sha256(w.lower().encode()).hexdigest()[:16] in WITHDRAWN})
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import heritage_rules as R  # noqa: E402
@@ -138,10 +148,46 @@ class CreativeDirectorOverride(unittest.TestCase):
             with self.subTest(over):
                 self.assertFalse(R.is_public(e, SOURCES_UNCONFIRMED))
 
+    def test_override_never_publishes_text(self):
+        for scope in ("summary", "full-text"):
+            with self.subTest(scope):
+                e = self.ov_entry(); e["publication"]["scope"] = scope
+                self.assertFalse(R.is_public(e, SOURCES_UNCONFIRMED))
+                self.assertFalse(R.is_public(e, SOURCES_CONFIRMED))   # no community confirmation either
+
     def test_rights_only_override_still_needs_village_evidence(self):
         e = self.ov_entry(covers=["source-rights"])
         self.assertEqual(R.effective_level(e), "uncertain")
         self.assertFalse(R.is_public(e, SOURCES_UNCONFIRMED))
+
+
+class TextNeedsCulturalReview(unittest.TestCase):
+    def text_entry(self, scope="full-text", review=True):
+        e = entry(publication={**entry()["publication"], "scope": scope})
+        if review:
+            e["culturalReview"] = {"approvedBy": "Village council (test)", "ref": "CR-TEST", "scopesApproved": [scope]}
+        return e
+
+    def test_text_is_never_public_without_cultural_review(self):
+        for scope in ("summary", "full-text"):
+            with self.subTest(scope):
+                self.assertFalse(R.is_public(self.text_entry(scope, review=False), SOURCES_CONFIRMED))
+                self.assertTrue(R.problems(self.text_entry(scope, review=False), SOURCES_CONFIRMED))
+
+    def test_review_must_cover_the_scope(self):
+        e = self.text_entry("full-text")
+        e["culturalReview"]["scopesApproved"] = ["summary"]
+        self.assertFalse(R.is_public(e, SOURCES_CONFIRMED))
+
+    def test_text_needs_confirmed_rights_and_community_confirmation(self):
+        self.assertFalse(R.is_public(self.text_entry(), SOURCES_UNCONFIRMED))
+        e = self.text_entry()
+        e["associations"] = [{"targetType": "village", "targetId": "patamea", "evidence": ["source-structure", "second-source"]}]
+        self.assertFalse(R.is_public(e, SOURCES_CONFIRMED))
+
+    def test_fully_reviewed_text_can_publish(self):
+        self.assertTrue(R.is_public(self.text_entry(), SOURCES_CONFIRMED))
+        self.assertEqual(R.public_view(self.text_entry())["culturalReview"]["ref"], "CR-TEST")
 
 
 class ImportFormat(unittest.TestCase):
@@ -198,13 +244,12 @@ class PublicBuild(unittest.TestCase):
 
     def test_published_record_state(self):
         p = B.heritage_payload(self.tmp)
-        checks = {v["villageId"]: v["sourceChecks"][0]["status"] for v in p["villages"]}
-        self.assertEqual(checks, {"patamea": "verified", "leauvaa": "searched-none-found"})
-        [e] = p["entries"]
-        self.assertEqual((e["id"], e["level"], e["villageIds"]), ("tfs1981-p023-01", "village", ["patamea"]))
-        self.assertIn("Lauago: Faletogō", e["transcription"])
-        self.assertEqual(e["override"]["ref"], "SD-CD-007")
-        self.assertFalse(p["sources"][0]["rights"]["confirmedForUse"])   # rights still honestly unconfirmed
+        self.assertEqual(p["entries"], [])
+        checks = {v["villageId"]: v["sourceChecks"][0] for v in p["villages"]}
+        self.assertEqual(checks["patamea"]["status"], "entry-under-review")
+        self.assertEqual(checks["patamea"]["pageRef"]["printedPage"], "23")
+        self.assertEqual(checks["leauvaa"]["status"], "searched-none-found")
+        self.assertFalse(p["sources"][0]["rights"]["confirmedForUse"])
 
     def test_research_folder_never_reaches_public_build(self):
         self._write("research/entries/secret.json", entry(id="RESEARCH-ONLY-ID", headingAsPrinted="RESEARCH-ONLY-HEADING",
@@ -247,6 +292,18 @@ class RepositoryGuard(unittest.TestCase):
             if f.startswith("data/heritage/approved/") and f.endswith(".json"):
                 e = json.load(open(os.path.join(ROOT, f), encoding="utf-8"))
                 self.assertTrue(R.is_public(e, sources), f)
+
+    def test_withdrawn_transcription_is_in_no_tracked_file(self):
+        """Canary phrases from the withdrawn Patamea transcription (SD-CD-008) must not be in the public repo."""
+        files = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True).stdout.split()
+        hits = []
+        for f in files:
+            try:
+                txt = open(os.path.join(ROOT, f), encoding="utf-8").read()
+            except (UnicodeDecodeError, IsADirectoryError, FileNotFoundError):
+                continue
+            hits += ["%s: %d withdrawn word(s)" % (f, len(withdrawn_words(txt)))] if withdrawn_words(txt) else []
+        self.assertEqual(hits, [])
 
     def test_committed_site_matches_a_fresh_build(self):
         tmp = tempfile.mkdtemp()
