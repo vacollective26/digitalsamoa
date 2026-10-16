@@ -4,8 +4,13 @@
     "sourceChecks": [
       {
         "sourceId": "tusi-faalupega-1981",
-        "status": "verified",
-        "note": "Entry found on printed p. 23 (Savai‘i section). Transcription checked against the page image. Published on the Creative Director's decision (SD-CD-007); Patamea has not yet reviewed it."
+        "status": "entry-under-review",
+        "pageRef": {
+          "printedPage": "23"
+        },
+        "section": "Faalupega o Savaii",
+        "headingAsPrinted": "Patamea",
+        "note": "An entry headed “Patamea” appears in this edition. Its text is not shown here while Patamea reviews it and the rights to reuse it are confirmed."
       }
     ],
     "communityKnowledge": {

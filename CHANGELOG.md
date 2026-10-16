@@ -1,5 +1,11 @@
 # Changelog
 
+## v9 · Content safety (SD-CD-008)
+- Patamea's transcription withdrawn from the public build. The History page now shows the bibliographic citation (1981 edition, Faalupega o Savaii, p. 23, entry "Patamea") with a **Community review pending** status. No text from the entry is shown.
+- The research record has moved to private research storage (git-ignored `research/`, plus the project's private notes). Nothing was deleted.
+- New rule: summaries and transcriptions need confirmed rights, community confirmation and a recorded cultural review. A Creative Director override can no longer publish text.
+- New repository guard: the build and the tests fail if words from the withdrawn transcription appear in any tracked file.
+
 ## v8 · Patamea's fa‘alupega (SD-CD-007)
 - Patamea's entry from *O le Tusi Fa‘alupega o Samoa* (1981, printed p. 23) is published in full under Our History → Historical Record, with page citation to Te Papa.
 - The entry carries a visible note: published on the Creative Director's decision, not yet reviewed by Patamea, rights not yet confirmed.
