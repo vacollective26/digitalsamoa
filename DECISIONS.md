@@ -10,10 +10,12 @@ Decisions are approved by the Creative Director. AI partners may propose but not
 | SD-CD-004 | Village experience: landscape first, then a voice, then a short introduction, then depth. | Approved |
 | SD-CD-005 | Mixed-media storytelling with hybrid narration; local voices lead. | Approved |
 | SD-CD-006 | Living Village Experience: cinematic village landing with two equal pathways, Explore the Village and Discover Our Stories. | Approved |
+| SD-CD-007 | Publish the full text of Patamea's entry (printed p. 23, 1981 edition) now, on the Creative Director's decision (16 Oct 2026), ahead of rights confirmation and village review. The site says so on the entry. Recorded risk: the title page says "All rights reserved" while Te Papa lists "No Known Copyright Restrictions"; Patamea has not yet reviewed it. Withdraw or correct on request from the village or rights holder. | Approved (Lisa Stephan) |
 | SD-TD-001 | Real coastline (Natural Earth) and real elevation (SRTM-derived, AWS Open Data); 3D with 2.5× vertical exaggeration. | Proposed |
 | SD-TD-002 | Cultural permissions enforced in code: restricted items never render publicly; unapproved items show as labelled slots. | Proposed |
 | SD-TD-003 | Village pages float over the live map; restricted records are filtered before reaching any page or search index. | Proposed |
 | SD-TD-004 | Host the prototype on GitHub Pages (public), with a search-engine "noindex" tag while it is a prototype. | Proposed |
 | SD-TD-005 | Copyright notice (Lisa Stephan and Vā Collective), LICENSE file, and a preview password on the public site. | Proposed |
 | SD-TD-006 | Village Heritage engine: historical sources are indexed privately; only verified, community-approved entries from rights-confirmed sources are built into the public site. | Proposed |
+| SD-TD-007 | A Creative Director override may cover only source rights and a village association already placed under its own heading in the source. It is shown on the entry and never bypasses verification, sensitivity, page reference or approval, and never rescues a name match. | Proposed |
 | Open | Glottal stop character in names: ‘ or ʻokina (ʻ, U+02BB). | Open |

@@ -18,6 +18,37 @@ EVIDENCE = (
 RESEARCH_STATUSES = ("draft", "indexed", "verified-against-source")
 PUBLICATION_STATUSES = ("unpublished", "community-review", "approved", "restricted", "withdrawn")
 SCOPES = ("citation-only", "summary", "full-text")
+# A Creative Director decision can publish ahead of two checks, and only these two.
+# It never replaces source verification, sensitivity, a page reference or approval,
+# and it can never rescue a name match: the entry must sit under the heading in the source.
+OVERRIDABLE = ("source-rights", "village-association")
+
+
+def override(entry):
+    """The Creative Director override on an entry, if it is complete (who, reference, what it covers)."""
+    o = (entry.get("publication") or {}).get("override") or {}
+    if not o.get("by") or not o.get("ref") or not o.get("covers"):
+        return None
+    if set(o["covers"]) - set(OVERRIDABLE):
+        return None
+    return o
+
+
+def overrides(entry, what):
+    o = override(entry)
+    return bool(o and what in o["covers"])
+
+
+def rights_ok(entry, src):
+    return bool(src and ((src.get("rights") or {}).get("confirmedForUse") or overrides(entry, "source-rights")))
+
+
+def entry_association_valid(entry, assoc):
+    """association_valid, plus a recorded override for a village entry placed under its own heading in the source."""
+    if association_valid(assoc):
+        return True
+    return (assoc.get("targetType") == "village" and overrides(entry, "village-association")
+            and "source-structure" in (assoc.get("evidence") or []))
 
 
 def association_valid(assoc):
@@ -42,19 +73,19 @@ def effective_level(entry):
     level = entry.get("level")
     if level not in ("village", "district"):
         return "uncertain"
-    ok = [a for a in entry.get("associations") or [] if a.get("targetType") == level and association_valid(a)]
+    ok = [a for a in entry.get("associations") or [] if a.get("targetType") == level and entry_association_valid(entry, a)]
     return level if ok else "uncertain"
 
 
 def associated_ids(entry, target_type):
     return [a["targetId"] for a in entry.get("associations") or []
-            if a.get("targetType") == target_type and association_valid(a)]
+            if a.get("targetType") == target_type and entry_association_valid(entry, a)]
 
 
 def is_public(entry, sources):
     """Every gate must pass. Missing information always means 'not public'."""
     src = next((s for s in sources if s.get("id") == entry.get("sourceId")), None)
-    if not src or not (src.get("rights") or {}).get("confirmedForUse"):
+    if not rights_ok(entry, src):
         return False
     if (entry.get("research") or {}).get("status") != "verified-against-source":
         return False
@@ -78,7 +109,7 @@ def problems(entry, sources):
     src = next((s for s in sources if s.get("id") == entry.get("sourceId")), None)
     if not src:
         out.append("unknown source")
-    elif not (src.get("rights") or {}).get("confirmedForUse"):
+    elif not rights_ok(entry, src):
         out.append("source rights not yet confirmed for this use")
     if (entry.get("research") or {}).get("status") != "verified-against-source":
         out.append("not yet verified against the source")
@@ -93,7 +124,7 @@ def problems(entry, sources):
     if not pr.get("printedPage") and not pr.get("pdfPage"):
         out.append("no page reference")
     for a in entry.get("associations") or []:
-        if not association_valid(a):
+        if not entry_association_valid(entry, a):
             ev = set(a.get("evidence") or [])
             why = "name similarity only" if ev <= {"name-match"} else "not enough evidence"
             out.append("association to %s '%s' is not valid (%s)" % (a.get("targetType"), a.get("targetId"), why))
@@ -114,10 +145,13 @@ def public_view(entry):
         "level": effective_level(entry),
         "villageIds": associated_ids(entry, "village"),
         "districtIds": associated_ids(entry, "district"),
-        "evidence": sorted({e for a in entry.get("associations") or [] if association_valid(a) for e in a.get("evidence") or []} - {"name-match"}),
+        "evidence": sorted({e for a in entry.get("associations") or [] if entry_association_valid(entry, a) for e in a.get("evidence") or []} - {"name-match"}),
         "variantNames": entry.get("variantNames") or [],
         "approval": {"by": pub.get("approvedBy"), "ref": pub.get("approvalRef"), "on": pub.get("approvedOn", ""), "scope": scope},
     }
+    o = override(entry)
+    if o:
+        view["override"] = {k: o.get(k, "") for k in ("by", "ref", "on", "covers", "note")}
     if scope in ("summary", "full-text"):
         view["summary"] = (entry.get("content") or {}).get("summary", "")
     if scope == "full-text":
