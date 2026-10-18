@@ -1,5 +1,18 @@
 # Changelog
 
+## v9 · Content safety (SD-CD-008)
+- Patamea's transcription withdrawn from the public build. The History page now shows the bibliographic citation (1981 edition, Faalupega o Savaii, p. 23, entry "Patamea") with a **Community review pending** status. No text from the entry is shown.
+- The research record has moved to private research storage (git-ignored `research/`, plus the project's private notes). Nothing was deleted.
+- New rule: summaries and transcriptions need confirmed rights, community confirmation and a recorded cultural review. A Creative Director override can no longer publish text.
+- New repository guard: the build and the tests fail if words from the withdrawn transcription appear in any tracked file.
+
+## v8 · Patamea's fa‘alupega (SD-CD-007)
+- Patamea's entry from *O le Tusi Fa‘alupega o Samoa* (1981, printed p. 23) is published in full under Our History → Historical Record, with page citation to Te Papa.
+- The entry carries a visible note: published on the Creative Director's decision, not yet reviewed by Patamea, rights not yet confirmed.
+- Source record now notes the title page's "All rights reserved" alongside Te Papa's assessment.
+- Le‘auva‘a: whole book searched, no heading found; shown as "Searched · no entry identified" with a note asking someone who knows the village to check.
+- Rules: bounded Creative Director override (SD-TD-007), mirrored in the browser, with tests.
+
 ## v7 · Sprint 03: Village Heritage engine (branch `sprint-03-village-heritage`)
 - Village Heritage section in **Our History** with three views: Historical Record, Understanding Fa‘alupega, Living Community Knowledge.
 - Source record for *O le Tusi Fa‘alupega o Samoa* (1981, Te Papa FE012543) with a clickable citation to the collection. Rights recorded as Te Papa's "No Known Copyright Restrictions" assessment, **not yet confirmed for this use**, so nothing from it is published.

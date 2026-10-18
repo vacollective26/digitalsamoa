@@ -2,17 +2,32 @@
   {
     "villageId": "patamea",
     "sourceChecks": [
-      { "sourceId": "tusi-faalupega-1981", "status": "not-yet-searched",
-        "note": "No entry has been identified or verified in this source for Patamea." }
+      {
+        "sourceId": "tusi-faalupega-1981",
+        "status": "entry-under-review",
+        "pageRef": {
+          "printedPage": "23"
+        },
+        "section": "Faalupega o Savaii",
+        "headingAsPrinted": "Patamea",
+        "note": "An entry headed “Patamea” appears in this edition. Its text is not shown here while Patamea reviews it and the rights to reuse it are confirmed."
+      }
     ],
-    "communityKnowledge": { "status": "not-yet-invited" }
+    "communityKnowledge": {
+      "status": "not-yet-invited"
+    }
   },
   {
     "villageId": "leauvaa",
     "sourceChecks": [
-      { "sourceId": "tusi-faalupega-1981", "status": "not-yet-searched",
-        "note": "No entry has been identified or verified in this source for Le‘auva‘a." }
+      {
+        "sourceId": "tusi-faalupega-1981",
+        "status": "searched-none-found",
+        "note": "The whole book was searched on 16 Oct 2026 (text search plus a page-by-page check of the Upolu villages near Fale‘ula and Malie) and no heading for Le‘auva‘a was found. It may appear under another name or within a neighbouring village's entry; someone who knows the village should check before we say more."
+      }
     ],
-    "communityKnowledge": { "status": "not-yet-invited" }
+    "communityKnowledge": {
+      "status": "not-yet-invited"
+    }
   }
 ]

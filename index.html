@@ -245,6 +245,11 @@ body.is3d #gl{display:block}
 .hempty ol{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
 .hgroup{display:grid;gap:10px}
 .hgroup-h{margin:6px 0 0;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.hreview{margin:12px 0;padding:12px 14px;border-radius:10px;background:rgba(201,138,58,.10);border-left:3px solid #C98A3A}.hreview p{margin:6px 0 0;font-size:var(--t-sm)}
+.hpending{font-size:13px;line-height:1.5;background:rgba(201,138,58,.12);border-left:3px solid #C98A3A;padding:8px 10px;margin:8px 0;border-radius:4px}
+.htrans{margin:12px 0}.htrans figcaption{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+.htrans blockquote{margin:0;padding:12px 14px;border-left:2px solid currentColor;font-family:Georgia,serif;font-size:16px;line-height:1.6}
+.htrans blockquote span{display:block}.htrans .hsub{font-family:inherit;font-size:11px;letter-spacing:.1em;margin-top:10px;opacity:.75}
 .hentry{background:#FBF5EC;border:1px solid var(--line-ink);border-left:4px solid var(--lagoon);border-radius:12px;padding:14px 16px;display:grid;gap:6px}
 .hentry.lvl-district{border-left-color:var(--clay)}
 .hentry.lvl-uncertain{border-left-color:var(--wait);border-left-style:dashed}
@@ -1962,7 +1967,7 @@ function renderStoriesView(v,box){
    Data is injected by tools/build.py: public sources, village profiles and ONLY approved entries.
    HeritageRules mirrors tools/heritage_rules.py and re-checks everything in the browser as well.
    ========================================================================= */
-const HERITAGE=/*HERITAGE:BEGIN*/{"sources":[{"id":"tusi-faalupega-1981","title":"O le Tusi Faalupega o Samoa","titleDisplay":"O le Tusi Fa‘alupega o Samoa","edition":"1981 edition","firstEdition":"1915","publisher":"Malua Printing Press","place":"Apia","listedAuthor":"T. Faletoese","holding":"Museum of New Zealand Te Papa Tongarewa","registration":"FE012543","creditLine":"Gift of Safua Akeli, 2010","url":"https://collections.tepapa.govt.nz/object/1094507","rights":{"statement":"No Known Copyright Restrictions","assessedBy":"Te Papa","checkedOn":"2026-10-16","confirmedForUse":false,"notes":"Te Papa's label is its own assessment, not a licence or a guarantee. Use in Sāmoa Digital is not yet confirmed with Te Papa or the publisher, and cultural permission is a separate question."},"culturalAuthority":{"status":"not-yet-sought","notes":"Fa‘alupega are held knowledge. Village and district authorities decide what is shared and how."}}],"villages":[{"villageId":"patamea","sourceChecks":[{"sourceId":"tusi-faalupega-1981","status":"not-yet-searched","note":"No entry has been identified or verified in this source for Patamea."}],"communityKnowledge":{"status":"not-yet-invited"}},{"villageId":"leauvaa","sourceChecks":[{"sourceId":"tusi-faalupega-1981","status":"not-yet-searched","note":"No entry has been identified or verified in this source for Le‘auva‘a."}],"communityKnowledge":{"status":"not-yet-invited"}}],"entries":[],"mode":"public"}/*HERITAGE:END*/;
+const HERITAGE=/*HERITAGE:BEGIN*/{"sources":[{"id":"tusi-faalupega-1981","title":"O le Tusi Faalupega o Samoa","titleDisplay":"O le Tusi Fa‘alupega o Samoa","edition":"1981 edition","firstEdition":"1915","publisher":"Malua Printing Press","place":"Apia","listedAuthor":"T. Faletoese","holding":"Museum of New Zealand Te Papa Tongarewa","registration":"FE012543","creditLine":"Gift of Safua Akeli, 2010","url":"https://collections.tepapa.govt.nz/object/1094507","rights":{"statement":"No Known Copyright Restrictions","assessedBy":"Te Papa","checkedOn":"2026-10-16","confirmedForUse":false,"notes":"Te Papa's label is its own assessment, not a licence or a guarantee. The book's own title page says 'All rights reserved'. Use in Sāmoa Digital is not yet confirmed with Te Papa or the publisher (Malua Printing Press), and cultural permission is a separate question.","titlePageNotice":"ALL RIGHTS RESERVED (title page, PDF page 7)"},"culturalAuthority":{"status":"not-yet-sought","notes":"Fa‘alupega are held knowledge. Village and district authorities decide what is shared and how."}}],"villages":[{"villageId":"patamea","sourceChecks":[{"sourceId":"tusi-faalupega-1981","status":"entry-under-review","pageRef":{"printedPage":"23"},"section":"Faalupega o Savaii","headingAsPrinted":"Patamea","note":"An entry headed “Patamea” appears in this edition. Its text is not shown here while Patamea reviews it and the rights to reuse it are confirmed."}],"communityKnowledge":{"status":"not-yet-invited"}},{"villageId":"leauvaa","sourceChecks":[{"sourceId":"tusi-faalupega-1981","status":"searched-none-found","note":"The whole book was searched on 16 Oct 2026 (text search plus a page-by-page check of the Upolu villages near Fale‘ula and Malie) and no heading for Le‘auva‘a was found. It may appear under another name or within a neighbouring village's entry; someone who knows the village should check before we say more."}],"communityKnowledge":{"status":"not-yet-invited"}}],"entries":[],"mode":"public"}/*HERITAGE:END*/;
 const HeritageRules={
   valid(a){const ev=new Set(a.evidence||[]);ev.delete("name-match");
     if(a.targetType==="village") return ev.has("community-confirmed")||(ev.has("source-structure")&&ev.has("second-source"));
@@ -1970,7 +1975,10 @@ const HeritageRules={
     return false;},
   source(id){return HERITAGE.sources.find(s=>s.id===id);},
   isPublic(e){const s=this.source(e.sourceId);
-    return !!(s&&s.rights&&s.rights.confirmedForUse&&e.approval&&e.approval.by&&e.approval.ref&&e.pageRef&&(e.pageRef.printedPage||e.pageRef.pdfPage));},
+    const text=!!(e.summary||e.transcription);
+    if(text&&!(s&&s.rights&&s.rights.confirmedForUse&&e.culturalReview&&e.culturalReview.by&&e.culturalReview.ref)) return false;
+    const ov=!text&&e.override&&e.override.by&&e.override.ref?(e.override.covers||[]):[];
+    return !!(s&&s.rights&&(s.rights.confirmedForUse||ov.includes("source-rights"))&&e.approval&&e.approval.by&&e.approval.ref&&e.pageRef&&(e.pageRef.printedPage||e.pageRef.pdfPage));},
   forVillage(v){
     const pub=HERITAGE.entries.filter(e=>this.isPublic(e));
     const districtId=(v.districtId||"");
@@ -1983,9 +1991,10 @@ const HeritageRules={
   profile(v){return HERITAGE.villages.find(p=>p.villageId===v.id)||{villageId:v.id,sourceChecks:[],communityKnowledge:{status:"not-yet-invited"}};}
 };
 const HTABS=[["record","Historical Record"],["understand","Understanding Fa‘alupega"],["living","Living Community Knowledge"]];
-const CHECK_LABEL={"not-yet-searched":"Not yet searched","searched-none-found":"Searched · no entry identified","entry-under-review":"Entry under community review","verified":"Verified entry published"};
+const CHECK_LABEL={"not-yet-searched":"Not yet searched","searched-none-found":"Searched · no entry identified","entry-under-review":"Community review pending","verified":"Verified entry published"};
 const LEVEL_LABEL={village:"Village-level reference",district:"District-level reference",uncertain:"Uncertain reference"};
 const EVIDENCE_LABEL={"source-structure":"Placed under this heading in the source","second-source":"Agrees with a second source","community-confirmed":"Confirmed by the community"};
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 function citeHtml(e,s){
   const p=e.pageRef||{}, page=p.printedPage?`p. ${p.printedPage}`:`PDF page ${p.pdfPage}`;
   return `<a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.titleDisplay} (${s.edition}), ${page}. ${s.holding}, ${s.registration}<span class="sr"> (opens the original collection record in a new tab)</span> ↗</a>`;
@@ -1996,7 +2005,9 @@ function heritageEntryCard(e){
     <span class="hlevel">${LEVEL_LABEL[e.level]}</span>
     <h4>${e.headingAsPrinted||"Entry"}</h4>
     ${e.variantNames&&e.variantNames.length?`<p class="hvar">Also written: ${e.variantNames.map(n=>n.name).join(", ")}</p>`:""}
-    ${e.summary?`<p>${e.summary}</p>`:""}
+    ${e.override?`<p class="hpending" role="note"><b>Published on the Creative Director's decision (${esc(e.override.ref)})</b> · ${(e.override.covers||[]).includes("village-association")?"not yet reviewed by the village":""}${(e.override.covers||[]).length>1?" · ":""}${(e.override.covers||[]).includes("source-rights")?"rights not yet confirmed":""}. ${esc(e.override.note||"")}</p>`:""}
+    ${e.summary?`<p>${esc(e.summary)}</p>`:""}
+    ${e.transcription?`<figure class="htrans"><figcaption>As printed in the source</figcaption><blockquote lang="sm">${e.transcription.split("\n").map(l=>/^[A-ZĀĒĪŌŪ‘ -]+$/.test(l)&&l.length>3?`<span class="hsub">${esc(l)}</span>`:`<span>${esc(l)}</span>`).join("")}</blockquote></figure>`:""}
     <ul class="hev">${(e.evidence||[]).map(x=>`<li>${EVIDENCE_LABEL[x]||x}</li>`).join("")}</ul>
     <p class="hcite">${citeHtml(e,s)}</p>
     <p class="happroved">Approved for publication by ${e.approval.by}${e.approval.on?` on ${e.approval.on}`:""} · shown as: ${e.approval.scope.replace("-"," ")}</p>
@@ -2023,13 +2034,16 @@ function renderHeritage(v,host){
       ${HERITAGE.sources.map(s=>{const chk=(prof.sourceChecks||[]).find(c=>c.sourceId===s.id);return `<div class="hsource">
         <div><span class="hs-label">Source</span><h4>${s.titleDisplay}</h4>
         <p>${s.edition}, ${s.publisher}, ${s.place} · first edition ${s.firstEdition} · ${s.holding}, ${s.registration}</p>
-        <p class="hs-rights"><b>Rights:</b> ${s.rights.statement} (${s.rights.assessedBy}). ${s.rights.confirmedForUse?"Use confirmed for this project.":"Use in Sāmoa Digital not yet confirmed, so no entries from this source are published yet."}</p>
+        <p class="hs-rights"><b>Rights:</b> ${s.rights.statement} (${s.rights.assessedBy}). ${s.rights.titlePageNotice?`The book's title page says “${esc(s.rights.titlePageNotice.split(" (")[0])}”. `:""}${s.rights.confirmedForUse?"Use confirmed for this project.":"Use in Sāmoa Digital not yet confirmed, so no text from this source is published here."}</p>
         <a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">View the original at Te Papa<span class="sr"> (opens in a new tab)</span> ↗</a></div>
-        <span class="status ${chk&&chk.status==="verified"?"s-ok":"s-slot"} hs-check">${v.name}: ${CHECK_LABEL[chk?chk.status:"not-yet-searched"]||"Not yet searched"}</span></div>`;}).join("")}
+        <span class="status ${chk&&chk.status==="verified"?"s-ok":chk&&chk.status==="entry-under-review"?"s-wait":"s-slot"} hs-check">${v.name}: ${CHECK_LABEL[chk?chk.status:"not-yet-searched"]||"Not yet searched"}</span></div>
+        ${chk&&chk.status==="entry-under-review"&&chk.pageRef?`<div class="hreview" role="status"><span class="hs-label">Entry located · community review pending</span>
+          <p>${esc(chk.note||"")}</p>
+          <p class="hcite"><a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.titleDisplay} (${s.edition}), ${chk.section?esc(chk.section)+", ":""}p. ${esc(chk.pageRef.printedPage)}${chk.headingAsPrinted?`, entry “${esc(chk.headingAsPrinted)}”`:""}. ${s.holding}, ${s.registration}<span class="sr"> (opens the original collection record in a new tab)</span> ↗</a></p></div>`:""}`;}).join("")}
       ${total?groups.map(([k,l])=>found[k].length?`<div class="hgroup"><h4 class="hgroup-h">${l}</h4>${found[k].map(heritageEntryCard).join("")}</div>`:"").join("")
       :`<div class="hempty" role="status">
-          <b>No verified historical entry for ${v.name} yet.</b>
-          <p>This does not mean ${v.name} has no fa‘alupega or written history. It means no entry from these sources has yet been identified, checked against the page, and approved by the village to appear here.</p>
+          <b>No historical entry for ${v.name} is published here yet.</b>
+          <p>${(prof.sourceChecks||[]).some(c=>c.status==="entry-under-review")?`An entry has been located in the source and is cited above. Its text will appear here only if ${v.name} reviews it and decides it should be shared, and how much of it.`:`This does not mean ${v.name} has no fa‘alupega or written history. It means no entry from these sources has yet been identified, checked against the page, and approved by the village to appear here.`}</p>
           <details><summary>How an entry reaches this page</summary><ol>
             <li>The rights to use the source are confirmed with the institution that holds it.</li>
             <li>A researcher indexes the entry privately, citing the exact page.</li>
@@ -2214,7 +2228,7 @@ function openAbout(focus){
   <h3>Copyright</h3>
   <p>© 2026 Lisa Stephan and Vā Collective. All rights reserved. The Sāmoa Digital concept, design, code and text may not be copied, reused or adapted without written permission. Map data remains under its own open licences (Natural Earth, public domain; terrain data via AWS Open Data).</p>
   <h3>Historical sources</h3>
-  <p>${HERITAGE.sources.map(s=>`${s.titleDisplay} (${s.edition}), held by ${s.holding} (${s.registration}). Rights: ${s.rights.statement}, as assessed by ${s.rights.assessedBy}; use in this project ${s.rights.confirmedForUse?"confirmed":"not yet confirmed"}. <a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">Collection record ↗</a>`).join("<br>")||"None yet."}</p>
+  <p>${HERITAGE.sources.map(s=>`${s.titleDisplay} (${s.edition}), held by ${s.holding} (${s.registration}). Rights: ${s.rights.statement}, as assessed by ${s.rights.assessedBy}; ${s.rights.titlePageNotice?`the book's title page says “${esc(s.rights.titlePageNotice.split(" (")[0])}”; `:""}use in this project ${s.rights.confirmedForUse?"confirmed":"not yet confirmed"}. <a class="cite" href="${s.url}" target="_blank" rel="noopener noreferrer">Collection record ↗</a>`).join("<br>")||"None yet."}</p>
   <h3>Whose knowledge this is</h3>
   <p>Cultural knowledge belongs to its appropriate custodians. All village stories, business profiles, historical accounts and media require permission and review before publication.</p>
   <h3>Public facts on the map</h3>

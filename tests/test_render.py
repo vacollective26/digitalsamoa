@@ -4,6 +4,7 @@ Skipped automatically if Playwright isn't installed.
 Optional: SD_CHROMIUM=/path/to/chrome   SD_THREE_JS=/path/to/three.min.js (offline copy of the 3D library)
 """
 import json, os, shutil, sys, tempfile, unittest
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -38,6 +39,7 @@ class HeritageRendering(unittest.TestCase):
         s = json.load(open(sp, encoding="utf-8")); s[0]["rights"]["confirmedForUse"] = True
         json.dump(s, open(sp, "w", encoding="utf-8"))
         ap = os.path.join(fx, "data/heritage/approved")
+        shutil.rmtree(ap); os.makedirs(ap)
         for e in [
             fictional("fx-v", "village", [{"targetType": "village", "targetId": "patamea", "evidence": ["community-confirmed"]}], "FIXTURE VILLAGE ENTRY"),
             fictional("fx-d", "district", [{"targetType": "district", "targetId": "gagaemauga", "evidence": ["source-structure"]}], "FIXTURE DISTRICT ENTRY"),
@@ -67,14 +69,28 @@ class HeritageRendering(unittest.TestCase):
         pg.wait_for_selector("#heritage-host .heritage", timeout=15000)
         return pg
 
-    def test_empty_state_for_both_pilot_villages(self):
-        for vid, name in (("patamea", "Patamea"), ("leauvaa", "Le‘auva‘a")):
+    def test_patamea_shows_citation_and_review_pending_without_text(self):
+        pg = self.open(self.real, "patamea-history")
+        self.assertEqual(pg.locator(".hentry").count(), 0)
+        self.assertIn("community review pending", pg.text_content(".hs-check").lower())
+        box = pg.text_content(".hreview")
+        self.assertIn("p. 23", box)
+        self.assertIn("Patamea", box)
+        self.assertEqual(pg.locator(".hreview a.cite").get_attribute("href"), TEPAPA)
+        body = pg.text_content("body")
+        from test_heritage import withdrawn_words
+        self.assertEqual(withdrawn_words(body), [])
+        self.assertEqual(self.errors, [])
+        pg.close()
+
+    def test_empty_state_for_leauvaa(self):
+        for vid, name in (("leauvaa", "Le‘auva‘a"),):
             with self.subTest(vid):
                 pg = self.open(self.real, vid + "-history")
                 self.assertEqual(pg.locator("[data-htab]").count(), 3)
-                self.assertIn("No verified historical entry for " + name, pg.text_content(".hempty"))
+                self.assertIn("No historical entry for " + name, pg.text_content(".hempty"))
                 self.assertEqual(pg.locator(".hentry").count(), 0)
-                self.assertIn("not yet searched", pg.text_content(".hs-check").lower())
+                self.assertIn("no entry identified", pg.text_content(".hs-check").lower())
                 link = pg.locator(".hsource a.cite")
                 self.assertEqual(link.get_attribute("href"), TEPAPA)
                 self.assertEqual(link.get_attribute("target"), "_blank")
